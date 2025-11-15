@@ -29,8 +29,24 @@ def init_db():
     except:
         pass
 
+    # --- New table for company info ---
+    c.execute("""
+    CREATE TABLE IF NOT EXISTS company_info (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        motto TEXT,
+        characteristics TEXT
+    );
+    """)
+
+    # Initialize a row if none exists
+    c.execute("SELECT COUNT(*) FROM company_info")
+    if c.fetchone()[0] == 0:
+        c.execute("INSERT INTO company_info (motto, characteristics) VALUES (?, ?)",
+                  ("Your Company Motto Here", "Integrity, Excellence, Teamwork"))
+
     conn.commit()
     conn.close()
+
 
 if __name__ == "__main__":
     init_db()
