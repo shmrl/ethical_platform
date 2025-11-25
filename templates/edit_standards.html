@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Company Standards</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<header>
+    <h1>Edit Company Standards</h1>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/logout">Logout</a>
+    </nav>
+</header>
+
+<main>
+    <section class="content-box">
+        <h2>Update Standards</h2>
+
+        <form action="/edit_standards" method="POST">
+            <textarea name="standards" rows="10" required>{{ standards }}</textarea>
+            <br><br>
+            <button type="submit">Update Standards</button>
+        </form>
+    </section>
+</main>
+
+</body>
+</html>

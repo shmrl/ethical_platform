@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Standards</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<header>
+    <h1>Company Standards</h1>
+    <nav>
+        <a href="/">Home</a>
+        {% if session.get('user') %}
+            <a href="/dashboard">Dashboard</a>
+            <a href="/logout">Logout</a>
+        {% else %}
+            <a href="/login">Leadership Login</a>
+        {% endif %}
+    </nav>
+</header>
+
+<main>
+    <section class="content-box">
+        <h2>Our Standards</h2>
+        <p>{{ standards }}</p>
+
+        {% if session.get('user') %}
+            <a class="btn" href="/edit_standards">Edit Standards</a>
+        {% endif %}
+    </section>
+</main>
+
+</body>
+</html>

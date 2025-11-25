@@ -1,15 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Ethical Platform</title>
+    <title>Company Homepage</title>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <h1>Ethical Reporting Platform</h1>
 
-    <p>Your safe and anonymous space to uphold integrity.</p>
-    <p>{{ motto }}</p>
-    <a class="btn" href="/report">Submit Anonymous Report</a>
-    <a class="btn" href="/login">Leadership Login</a>
+    <header>
+        <h1>Welcome to Business360</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>Company Motto</h2>
+            <p>{{ motto }}</p>
+
+            {% if session.get('user') %}
+                <a class="btn" href="/edit_motto">Edit Motto</a>
+            {% endif %}
+        </section>
+
+        <section>
+            <h2>Company Standards</h2>
+            <p>{{ standards }}</p>
+
+            {% if session.get('user') %}
+                <a class="btn" href="/edit_standards">Edit Standards</a>
+            {% endif %}
+            <a class="btn" href="/standards">View Standards</a>
+        </section>
+
+        <section>
+            <h2>Company Characteristics</h2>
+            <p>{{ characteristics }}</p>
+
+            {% if session.get('user') %}
+                <a class="btn" href="/edit_characteristics">Edit Characteristics</a>
+            {% endif %}
+            <a class="btn" href="/characteristics">View Characteristics</a>
+        </section>
+    </main>
+
 </body>
 </html>
