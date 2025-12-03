@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Edit Company Characteristics</title>
+    <title>Company Characteristics</title>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
@@ -9,14 +9,13 @@
     <!-- Home Button -->
     <a class="btn" href="{{ url_for('home') }}">Home</a>
 
-    <h2>Edit Company Characteristics</h2>
+    <h2>Company Characteristics</h2>
 
-    <form method="POST">
-        <textarea name="characteristics" rows="6" required>{{ characteristics }}</textarea>
-        <button class="btn" type="submit">Update Characteristics</button>
-    </form>
+    <p>{{ characteristics }}</p>
 
-    <a class="btn" href="/dashboard">Back to Dashboard</a>
+    {% if session.get('user') %}
+        <a class="btn" href="/edit_characteristics">Edit Characteristics</a>
+    {% endif %}
 
 </body>
 </html>

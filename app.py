@@ -113,6 +113,17 @@ def standards():
     conn.close()
     return render_template("standards.html", standards=standards)
 
+# ---- View Company Characteristics ----
+@app.route("/characteristics")
+def characteristics():
+    conn = sqlite3.connect("reports.db")
+    c = conn.cursor()
+    c.execute("SELECT characteristics FROM company_info WHERE id=1")
+    characteristics = c.fetchone()[0]
+    conn.close()
+    return render_template("characteristics.html", characteristics=characteristics)
+
+
 # ---- Edit Company Standards ----
 @app.route("/edit_standards", methods=["GET", "POST"])
 def edit_standards():
