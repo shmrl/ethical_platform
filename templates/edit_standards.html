@@ -11,9 +11,9 @@
 <header>
     <h1>Edit Company Standards</h1>
     <nav>
-        <a href="/">Home</a>
-        <a href="/dashboard">Dashboard</a>
-        <a href="/logout">Logout</a>
+        <a class="btn" href="{{ url_for('home') }}">Home</a>
+        <a class="btn" href="/dashboard">Dashboard</a>
+        <a class="btn" href="/logout">Logout</a>
     </nav>
 </header>
 
@@ -24,7 +24,7 @@
         <form action="/edit_standards" method="POST">
             <textarea name="standards" rows="10" required>{{ standards }}</textarea>
             <br><br>
-            <button type="submit">Update Standards</button>
+            <button class="btn" type="submit">Update Standards</button>
         </form>
     </section>
 </main>
