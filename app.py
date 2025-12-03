@@ -147,3 +147,25 @@ def edit_standards():
 
 if __name__ == "__main__":
     app.run(debug=True)
+    
+# ---- Edit Company Characteristics ----
+@app.route("/edit_characteristics", methods=["GET", "POST"])
+def edit_characteristics():
+    if "user" not in session:
+        return redirect("/login")
+
+    conn = sqlite3.connect("reports.db")
+    c = conn.cursor()
+
+    if request.method == "POST":
+        new_characteristics = request.form["characteristics"]
+        c.execute("UPDATE company_info SET characteristics=? WHERE id=1", (new_characteristics,))
+        conn.commit()
+        conn.close()
+        return redirect("/characteristics")  # Redirect to the view page after updating
+
+    # GET request: show current characteristics
+    c.execute("SELECT characteristics FROM company_info WHERE id=1")
+    characteristics = c.fetchone()[0]
+    conn.close()
+    return render_template("edit_characteristics.html", characteristics=characteristics)
