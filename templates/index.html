@@ -6,40 +6,53 @@
 </head>
 <body>
 
-    <header>
-        <h1>Welcome to Business360</h1>
-    </header>
+<header class="site-header">
+    <h1>Welcome to Business360</h1>
 
-    <main>
-        <section>
-            <h2>Company Motto</h2>
-            <p>{{ motto }}</p>
+    <!-- Manager Login Form -->
+    {% if 'user' not in session %}
+    <form method="POST" action="/login" class="manager-login">
+        <label for="username">Manager Login</label><br>
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button class="btn" type="submit">Login</button>
+    </form>
+    {% else %}
+    <p class="logged-in">Logged in as {{ session['user'] }} | <a class="btn" href="/logout">Logout</a></p>
+    {% endif %}
 
-            {% if session.get('user') %}
-                <a class="btn" href="/edit_motto">Edit Motto</a>
-            {% endif %}
-        </section>
+</header>
 
-        <section>
-            <h2>Company Standards</h2>
-            <p>{{ standards }}</p>
+<main>
+    <section>
+        <h2>Company Motto</h2>
+        <p>{{ motto }}</p>
 
-            {% if session.get('user') %}
-                <a class="btn" href="/edit_standards">Edit Standards</a>
-            {% endif %}
-            <a class="btn" href="/standards">View Standards</a>
-        </section>
+        {% if session.get('user') %}
+            <a class="btn" href="/edit_motto">Edit Motto</a>
+        {% endif %}
+    </section>
 
-        <section>
-            <h2>Company Characteristics</h2>
-            <p>{{ characteristics }}</p>
+    <section>
+        <h2>Company Standards</h2>
+        <p>{{ standards }}</p>
 
-            {% if session.get('user') %}
-                <a class="btn" href="/edit_characteristics">Edit Characteristics</a>
-            {% endif %}
-            <a class="btn" href="/characteristics">View Characteristics</a>
-        </section>
-    </main>
+        {% if session.get('user') %}
+            <a class="btn" href="/edit_standards">Edit Standards</a>
+        {% endif %}
+        <a class="btn" href="/standards">View Standards</a>
+    </section>
+
+    <section>
+        <h2>Company Characteristics</h2>
+        <p>{{ characteristics }}</p>
+
+        {% if session.get('user') %}
+            <a class="btn" href="/edit_characteristics">Edit Characteristics</a>
+        {% endif %}
+        <a class="btn" href="/characteristics">View Characteristics</a>
+    </section>
+</main>
 
 </body>
 </html>

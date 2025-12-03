@@ -93,4 +93,35 @@ form {
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
+/* Header layout */
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 900px;
+    margin: 0 auto 30px auto;
+}
+
+/* Manager login form on the right */
+.manager-login {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.manager-login label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.manager-login input {
+    width: 200px;
+    margin-bottom: 5px;
+}
+
+.manager-login button {
+    width: 100%;
+    padding: 8px;
+    font-size: 0.9rem;
+}
 
