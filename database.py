@@ -4,7 +4,7 @@ def init_db():
     conn = sqlite3.connect("reports.db")
     c = conn.cursor()
 
-    # ---- Reports table ----
+    # Reports table
     c.execute("""
     CREATE TABLE IF NOT EXISTS reports (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -14,7 +14,7 @@ def init_db():
     );
     """)
 
-    # ---- Leadership accounts ----
+    # Users table
     c.execute("""
     CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -23,14 +23,12 @@ def init_db():
     );
     """)
 
-    # Default admin account (username: admin, password: admin123)
     try:
-        c.execute("INSERT INTO users (username, password) VALUES (?, ?)",
-                  ("admin", "admin123"))
+        c.execute("INSERT INTO users (username, password) VALUES (?, ?)", ("admin", "admin123"))
     except sqlite3.IntegrityError:
         pass
 
-    # ---- Company info table ----
+    # Company info
     c.execute("""
     CREATE TABLE IF NOT EXISTS company_info (
         id INTEGER PRIMARY KEY,
@@ -40,7 +38,6 @@ def init_db():
     );
     """)
 
-    # Initialize a row if none exists
     c.execute("SELECT COUNT(*) FROM company_info WHERE id=1")
     if c.fetchone()[0] == 0:
         c.execute("""
@@ -50,6 +47,7 @@ def init_db():
 
     conn.commit()
     conn.close()
+
 
 if __name__ == "__main__":
     init_db()
