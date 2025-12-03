@@ -21,10 +21,12 @@ def home():
     row = c.fetchone()
     motto, standards, characteristics = row
     conn.close()
-    return render_template("index.html",
+    return render_template(
+        "index.html",
         motto=motto,
         standards=standards,
-        characteristics=characteristics)
+        characteristics=characteristics
+    )
 
 
 # ---- Anonymous Report Submission ----
@@ -32,22 +34,21 @@ def home():
 def report():
     if request.method == "POST":
         issue = request.form["issue"]
-
         conn = sqlite3.connect("reports.db")
         c = conn.cursor()
-        c.execute("INSERT INTO reports (issue) VALUES (?)", (issue,))
+        c.execute("INSERT INTO reports (message) VALUES (?)", (issue,))
         conn.commit()
         conn.close()
-
         return redirect("/submitted")
-
     return render_template("report.html")
+
 
 @app.route("/submitted")
 def submitted():
     return render_template("submitted.html")
 
-# ---- Leadership Login ----
+
+# ---- Manager Login ----
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -59,8 +60,8 @@ def login():
             return redirect("/dashboard")
         else:
             return render_template("login.html", error="Invalid credentials.")
-
     return render_template("login.html")
+
 
 # ---- Dashboard ----
 @app.route("/dashboard")
@@ -70,17 +71,18 @@ def dashboard():
 
     conn = sqlite3.connect("reports.db")
     c = conn.cursor()
-    c.execute("SELECT * FROM reports ORDER BY created_at DESC")
+    c.execute("SELECT id, message, characteristics, created_at FROM reports ORDER BY created_at DESC")
     reports = c.fetchall()
     conn.close()
-
     return render_template("dashboard.html", reports=reports)
+
 
 # ---- Logout ----
 @app.route("/logout")
 def logout():
     session.pop("user", None)
     return redirect("/login")
+
 
 # ---- Edit Company Motto ----
 @app.route("/edit_motto", methods=["GET", "POST"])
@@ -102,26 +104,6 @@ def edit_motto():
     motto = c.fetchone()[0]
     conn.close()
     return render_template("edit_motto.html", motto=motto)
-
-# ---- View Company Standards ----
-@app.route("/standards")
-def standards():
-    conn = sqlite3.connect("reports.db")
-    c = conn.cursor()
-    c.execute("SELECT standards FROM company_info WHERE id=1")
-    standards = c.fetchone()[0]
-    conn.close()
-    return render_template("standards.html", standards=standards)
-
-# ---- View Company Characteristics ----
-@app.route("/characteristics")
-def characteristics():
-    conn = sqlite3.connect("reports.db")
-    c = conn.cursor()
-    c.execute("SELECT characteristics FROM company_info WHERE id=1")
-    characteristics = c.fetchone()[0]
-    conn.close()
-    return render_template("characteristics.html", characteristics=characteristics)
 
 
 # ---- Edit Company Standards ----
@@ -145,9 +127,7 @@ def edit_standards():
     conn.close()
     return render_template("edit_standards.html", standards=standards)
 
-if __name__ == "__main__":
-    app.run(debug=True)
-    
+
 # ---- Edit Company Characteristics ----
 @app.route("/edit_characteristics", methods=["GET", "POST"])
 def edit_characteristics():
@@ -162,10 +142,55 @@ def edit_characteristics():
         c.execute("UPDATE company_info SET characteristics=? WHERE id=1", (new_characteristics,))
         conn.commit()
         conn.close()
-        return redirect("/characteristics")  # Redirect to the view page after updating
+        return redirect("/characteristics")  # Redirect to view page
 
-    # GET request: show current characteristics
     c.execute("SELECT characteristics FROM company_info WHERE id=1")
     characteristics = c.fetchone()[0]
     conn.close()
     return render_template("edit_characteristics.html", characteristics=characteristics)
+
+
+# ---- View Company Standards ----
+@app.route("/standards")
+def standards():
+    conn = sqlite3.connect("reports.db")
+    c = conn.cursor()
+    c.execute("SELECT standards FROM company_info WHERE id=1")
+    standards = c.fetchone()[0]
+    conn.close()
+    return render_template("standards.html", standards=standards)
+
+
+# ---- View Company Characteristics ----
+@app.route("/characteristics")
+def characteristics():
+    conn = sqlite3.connect("reports.db")
+    c = conn.cursor()
+    c.execute("SELECT characteristics FROM company_info WHERE id=1")
+    characteristics = c.fetchone()[0]
+    conn.close()
+    return render_template("characteristics.html", characteristics=characteristics)
+
+
+# ---- Submit Ticket with Violated Characteristics ----
+@app.route("/submit_ticket", methods=["GET", "POST"])
+def submit_ticket():
+    if request.method == "POST":
+        selected_chars = request.form.getlist("characteristics")
+        message = request.form.get("message")
+        char_string = ", ".join(selected_chars)
+
+        conn = sqlite3.connect("reports.db")
+        c = conn.cursor()
+        c.execute("INSERT INTO reports (message, characteristics) VALUES (?, ?)", (message, char_string))
+        conn.commit()
+        conn.close()
+
+        return redirect("/submitted")
+
+    return render_template("report.html")
+
+
+# ---- Run App ----
+if __name__ == "__main__":
+    app.run(debug=True)

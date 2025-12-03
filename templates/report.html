@@ -1,20 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Submit Report</title>
+    <title>Submit a Characteristic Violation</title>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
 
-    <!-- Home Button -->
-    <a class="btn" href="{{ url_for('home') }}">Home</a>
+    <h2>Submit a Ticket</h2>
 
-    <h2>Anonymous Report</h2>
+    <form method="POST" action="/submit_ticket">
 
-    <form method="POST">
-        <textarea name="issue" placeholder="Describe the issue..." required></textarea>
-        <button class="btn" type="submit">Submit Report</button>
+        <fieldset>
+            <legend><strong>Select the characteristics that were violated:</strong></legend>
+            <label><input type="checkbox" name="characteristics" value="Integrity"> Integrity</label><br>
+            <label><input type="checkbox" name="characteristics" value="Accountability"> Accountability</label><br>
+            <label><input type="checkbox" name="characteristics" value="Professionalism"> Professionalism</label><br>
+            <label><input type="checkbox" name="characteristics" value="Respect"> Respect</label><br>
+            <label><input type="checkbox" name="characteristics" value="Teamwork"> Teamwork</label><br>
+        </fieldset>
+
+        <br>
+        <label for="message"><strong>Describe the issue:</strong></label><br>
+        <textarea id="message" name="message" rows="6" placeholder="Enter details..." required></textarea>
+
+        <br><br>
+        <button class="btn" type="submit">Submit Ticket</button>
     </form>
+
+    <br>
+    <a class="btn" href="/">Back to Home</a>
+    <a class="btn" href="/dashboard">Manager Dashboard</a>
 
 </body>
 </html>

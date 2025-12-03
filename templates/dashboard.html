@@ -7,20 +7,17 @@
 <body>
 
     <h1>Leadership Dashboard</h1>
-
-    <!-- Home Button -->
-    <a class="btn" href="{{ url_for('home') }}">Home</a>
-
-    <!-- Logout Button -->
     <a class="btn" href="/logout">Logout</a>
+    <a class="btn" href="/">Home</a>
 
     <h2>Submitted Reports</h2>
     {% if reports %}
         {% for r in reports %}
             <div class="card">
                 <p><strong>ID:</strong> {{ r[0] }}</p>
-                <p>{{ r[1] }}</p>
-                <small>Submitted: {{ r[2] }}</small>
+                <p><strong>Message:</strong> {{ r[1] }}</p>
+                <p><strong>Characteristics Violated:</strong> {{ r[2] if r[2] else "N/A" }}</p>
+                <small>Submitted: {{ r[3] if r[3] else "Unknown" }}</small>
             </div>
         {% endfor %}
     {% else %}
